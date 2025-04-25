@@ -43,7 +43,6 @@ const userSchema = new Schema({
     }
 }, { timestamps: true });
 
-export const User = mongoose.model(userSchema, 'User');
 
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) next();
@@ -87,3 +86,5 @@ userSchema.methods.generateAcessToken = async function () {
         console.error('Error while generating Refresh Token');
     }
 };
+
+export const User = mongoose.model('User', userSchema);

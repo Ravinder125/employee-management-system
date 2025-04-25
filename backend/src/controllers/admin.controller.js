@@ -1,7 +1,7 @@
-import { asyncHandler } from '../utils/asynchandler';
-import { ApiResponse } from '../utils/ApiResponse';
+import { asyncHandler } from '../utils/asynchandler.js';
+import { ApiResponse } from '../utils/ApiResponse.js';
 import { validationResult } from 'express-validator';
-import { Admin } from '../models/admin.model';
+import { Admin } from '../models/admin.model.js';
 
 const registerAdmin = asyncHandler(async (req, res) => {
     const errors = validationResult(req);

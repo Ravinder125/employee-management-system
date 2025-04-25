@@ -43,7 +43,6 @@ const adminSchema = new Schema({
     }
 }, { timestamps: true });
 
-export const Admin = mongoose.model(adminSchema, 'Admin');
 
 adminSchema.pre('save', async function (next) {
     if (!this.isModified('password')) next();
@@ -87,3 +86,5 @@ adminSchema.methods.generateAcessToken = async function () {
         console.error('Error while generating Refresh Token');
     }
 };
+
+export const Admin = mongoose.model('Admin', adminSchema);
