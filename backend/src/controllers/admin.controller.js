@@ -14,7 +14,6 @@ const registerAdmin = asyncHandler(async (req, res) => {
     const { email, password, firstname, lastname } = req.body;
 
     const existingAdmin = await Admin.findOne({ email });
-    console.log(existingAdmin)
     if (existingAdmin) {
         return res.status(400).json(ApiResponse.error(400, 'Admin already exists'))
     }
@@ -51,7 +50,6 @@ const loginAdmin = asyncHandler(async (req, res) => {
         return res.status(400).json(ApiResponse.error(400, errors.array(), 'Validation error'));
     }
     const { email, password } = req.body;
-    console.log(req.body)
     const isAdminExist = await Admin.findOne({ email }).select('+password');
 
     if (!isAdminExist || !isAdminExist.isPasswordCorrect(password)) {
@@ -75,9 +73,6 @@ const getProfile = asyncHandler(async (req, res) => {
 })
 
 const logoutAdmin = asyncHandler(async (req, res) => {
-    const adminId = req.admin._id;
-    console.log(userId)
-
     const options = {
         httpOnly: true,
         secure: true

@@ -27,8 +27,6 @@ const registerUser = asyncHandler(async (req, res) => {
 
     const coverImageUrl = await uploadOnCloudinary(coverImageLocalPath)
     const avatarUrl = await uploadOnCloudinary(avatarLocalPath)
-    console.log(coverImageUrl)
-
 
     const newUser = await User.create({
         email,
@@ -50,7 +48,6 @@ const loginUser = asyncHandler(async (req, res) => {
         return res.status(400).json(ApiResponse.error(400, errors.array(), 'Validation error'));
     }
     const { email, password } = req.body;
-    console.log(req.body)
     const isUserExist = await User.findOne({ email }).select('+password');
 
     if (!isUserExist || !isUserExist.isPasswordCorrect(password)) {
@@ -74,9 +71,6 @@ const getProfile = asyncHandler(async (req, res) => {
 })
 
 const logoutUser = asyncHandler(async (req, res) => {
-    const userId = req.user._id;
-    console.log(userId)
-
     const options = {
         httpOnly: true,
         secure: true
