@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
 import { upload } from '../middlewares/multer.middleware.js';
-import { loginUser, registerUser } from '../controllers/user.controller.js'
+import { loginUser, registerUser, getProfile, logoutUser } from '../controllers/user.controller.js'
+import { authUser } from '../middlewares/auth.middleware.js';
 
 
 const router = Router();
@@ -26,6 +27,9 @@ router
         ],
         loginUser
     )
+
+router.route('/logout').get(authUser, logoutUser)
+router.route('/profile').get(authUser, getProfile)
 
 
 export default router

@@ -9,14 +9,12 @@ const userSchema = new Schema({
             type: String,
             required: true,
             minlength: [2, "Firstname must be at least 2 characters long"],
-            maxlength: [2, "Firstname must not exceed 20 characters"],
             trim: true
         },
         lastName: {
             type: String,
             required: true,
-            minlength: [2, "Firstname must be at least 2 characters long"],
-            maxlength: [2, "Firstname must not exceed 20 characters"],
+            minlength: [2, "Lastname must be at least 2 characters long"],
             trim: true
         }
     },
@@ -26,7 +24,8 @@ const userSchema = new Schema({
         match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address'],
         unique: true,
         trim: true,
-        lowercase: true
+        lowercase: true,
+        index: true
     },
     password: {
         type: String,
@@ -38,9 +37,18 @@ const userSchema = new Schema({
     refreshToken: {
         type: String,
         trim: true,
-        unique: true,
         select: false
+    },
+    coverImage: {
+        type: String,
+        trim: true
+    },
+    avatar: {
+        type: String,
+        trim: true,
+        required: true
     }
+
 }, { timestamps: true });
 
 
@@ -55,14 +63,14 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 
 userSchema.methods.generateRefreshToken = async function () {
     try {
-        jwt.sign(
+        return jwt.sign(
             {
                 _id: this._id,
                 email: this.email
             },
             process.env.REFRESH_TOKEN_SECRET,
             {
-                expiresIn: REFRESH_TOKEN_EXPIRY
+                expiresIn: process.env.REFRESH_TOKEN_EXPIRY
             }
         )
     } catch (error) {
@@ -70,16 +78,16 @@ userSchema.methods.generateRefreshToken = async function () {
     }
 };
 
-userSchema.methods.generateAcessToken = async function () {
+userSchema.methods.generateAccessToken = async function () {
     try {
-        jwt.sign(
+        return jwt.sign(
             {
                 _id: this._id,
                 email: this.email
             },
             process.env.ACCESS_TOKEN_SECRET,
             {
-                expiresIn: ACCESS_TOKEN_EXPIRY
+                expiresIn: process.env.ACCESS_TOKEN_EXPIRY
             }
         )
     } catch (error) {

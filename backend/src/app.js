@@ -17,10 +17,11 @@ app.use(cors(corsConfig))
 app.use(cookieParser())
 
 
-import userRoutes from './src/routes/user.routes.js'
-
+import userRoutes from './routes/user.routes.js'
+import adminRoutes from './routes/user.routes.js'
 
 app.use('/api/v1/users', userRoutes)
+app.use('/api/v1/admins', adminRoutes)
 
 
 export default app
