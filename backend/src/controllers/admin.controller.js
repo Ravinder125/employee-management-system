@@ -14,8 +14,9 @@ const registerAdmin = asyncHandler(async (req, res) => {
     const { email, password, firstname, lastname } = req.body;
 
     const existingAdmin = await Admin.findOne({ email });
+    console.log(existingAdmin)
     if (existingAdmin) {
-        return res.status(400).json(ApiResponse.error(400, 'User already exists'))
+        return res.status(400).json(ApiResponse.error(400, 'Admin already exists'))
     }
 
     const coverImageLocalPath = req.files?.coverImage?.[0]?.path
@@ -41,7 +42,7 @@ const registerAdmin = asyncHandler(async (req, res) => {
         coverImage: coverImageUrl?.url || ''
     })
 
-    return res.status(201).json(ApiResponse.success(201, newAdmin, 'User successfully created'))
+    return res.status(201).json(ApiResponse.success(201, newAdmin, 'Admin successfully created'))
 })
 
 const loginAdmin = asyncHandler(async (req, res) => {
@@ -63,14 +64,14 @@ const loginAdmin = asyncHandler(async (req, res) => {
         .status(200)
         .cookie('accessToken', accessToken, options)
         .cookie('refreshToken', refreshToken, options)
-        .json(ApiResponse.success(200, isAdminExist, 'User successfully logined in'))
+        .json(ApiResponse.success(200, isAdminExist, 'Admin successfully logged in'))
 })
 
 const getProfile = asyncHandler(async (req, res) => {
     const adminId = req.admin._id;
     const user = await Admin.findById(adminId);
 
-    return res.status(200).json(ApiResponse.success(200, user, 'User profile successfully fetched'))
+    return res.status(200).json(ApiResponse.success(200, user, 'Admin profile successfully fetched'))
 })
 
 const logoutAdmin = asyncHandler(async (req, res) => {
@@ -86,7 +87,7 @@ const logoutAdmin = asyncHandler(async (req, res) => {
         .status(200)
         .clearCookie('accessToken', options)
         .clearCookie('refreshToken', options)
-        .json(ApiResponse.success(200, null, 'User successfully logged out'))
+        .json(ApiResponse.success(200, null, 'Admin successfully logged out'))
 })
 
 export {

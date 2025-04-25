@@ -40,6 +40,15 @@ const adminSchema = new Schema({
         trim: true,
         unique: true,
         select: false
+    },
+    coverImage: {
+        type: String,
+        trim: true,
+    },
+    avatar: {
+        type: String,
+        trim: true,
+        require: true
     }
 }, { timestamps: true });
 
