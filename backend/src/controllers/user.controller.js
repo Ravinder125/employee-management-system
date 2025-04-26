@@ -11,13 +11,15 @@ const registerUser = asyncHandler(async (req, res) => {
         return res.status(400).json(ApiResponse.error(400, errors.array(), 'Validation error'));
     }
 
-    const { email, password, firstname, lastname } = req.body;
+    const { email, password, username } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
         return res.status(400).json(ApiResponse.error(400, 'User already exists'))
     }
 
+
+    
     const coverImageLocalPath = req.files?.coverImage?.[0]?.path
     const avatarLocalPath = req.files?.avatar?.[0]?.path
 
@@ -31,10 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const newUser = await User.create({
         email,
         password,
-        fullName: {
-            firstName: firstname,
-            lastName: lastname
-        },
+        username,
         avatar: avatarUrl?.url,
         coverImage: coverImageUrl?.url || ''
     })

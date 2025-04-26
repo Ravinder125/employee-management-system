@@ -6,14 +6,21 @@ import cors from 'cors';
 
 const app = express();
 
-const corsConfig = {
-    origin: process.env.CORS_ORIGIN,
-    Credential: true
-}
 
+const whitelist = ['http://localhost:5173', 'http://localhost:4000', 'http://localhost:5000'];
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+}
+app.use(cors(corsOptions));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors(corsConfig))
 app.use(cookieParser())
 
 
