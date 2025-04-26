@@ -19,9 +19,11 @@ app.use(cookieParser())
 
 import userRoutes from './routes/user.routes.js'
 import adminRoutes from './routes/admin.routes.js'
+import todoRoutes from './routes/todo.routes.js'
 
 app.use('/api/v1/users', userRoutes)
 app.use('/api/v1/admins', adminRoutes)
+app.use('/api/v1/todos', todoRoutes)
 
 
 export default app

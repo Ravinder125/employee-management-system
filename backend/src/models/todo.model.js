@@ -25,7 +25,7 @@ const todoSchema = new Schema({
     },
     dueTo: {
         type: Date,
-        required: true,
+        default: new Date
     },
     completedAt: {
         type: Date,
