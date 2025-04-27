@@ -74,7 +74,7 @@ const EmployeeAuth = () => {
                 if (response.status === 201) {
                     setEmployeeData(response.data.data);
                     console.log(response.data.data); // log the fresh data
-                    setIsRegister(prev => !prev)
+                    setIsRegister(false)
                 }
                 cleanAndToggle()
             } else {
