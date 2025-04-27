@@ -10,7 +10,10 @@ const router = Router();
 router
     .route('/register')
     .post(
-        upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'coverImage' }]),
+        upload.fields([
+            { name: 'avatar', maxCount: 1 },
+            { name: 'coverImage', maxCount: 1 }
+        ]),
         [
             body('username').isEmpty().withMessage('Username is required'),
             body('email').isEmail().withMessage('Email is not valid'),

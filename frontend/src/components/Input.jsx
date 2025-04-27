@@ -5,7 +5,7 @@ const Input = ({ type, name, value, onChange, placeholder, icon, error }) => {
 
     return (
         <div className="w-full">
-            <div className={`border flex items-center gap-2 border-gray-400 p-3 bg-gray-100 rounded-lg shadow-md transition-all
+            <div className={`border flex items-center gap-2 border-gray-400 p-2 bg-gray-100 rounded-lg shadow-md transition-all
                 ${isFocus ? 'ring-2 ring-yellow-400' : ''}`}>
                 {icon && (
                     <i className={`ri-${icon}-fill text-gray-500 text-lg`}></i>

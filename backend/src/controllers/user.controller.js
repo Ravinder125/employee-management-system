@@ -19,12 +19,12 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
 
-    
+
     const coverImageLocalPath = req.files?.coverImage?.[0]?.path
     const avatarLocalPath = req.files?.avatar?.[0]?.path
-
+    console.log(req.files)
     if (!avatarLocalPath) {
-        return res.status(400).json(ApiResponse.error(401, 'Avatar is required'))
+        return res.status(400).json(ApiResponse.error(400, 'Avatar is required'))
     }
 
     const coverImageUrl = await uploadOnCloudinary(coverImageLocalPath)
@@ -48,7 +48,7 @@ const loginUser = asyncHandler(async (req, res) => {
     }
     const { email, password } = req.body;
     const isUserExist = await User.findOne({ email }).select('+password');
-
+    // console.log(email, password)
     if (!isUserExist || !isUserExist.isPasswordCorrect(password)) {
         return res.status(401).json(ApiResponse.error(401, 'Email or password is invalid'));
     }

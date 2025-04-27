@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const Start = () => {
     return (
         <div>
-            <Link className='text-3xl justify-center items-center flex w-full min-h-screen underline text-black' to='/register'>
+            <Link className='text-3xl justify-center items-center flex w-full min-h-screen underline text-black' to='/auth'>
                 Register
             </Link>
         </div>
