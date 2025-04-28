@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 
-const Url = 'http://localhost:4000/api/v1/users'
+const Url = `${import.meta.env.VITE_BASE_URL}/admins`
 
-const registerEmployee = async (data) => {
+const registerAdmin = async (data) => {
     const response = await axios.post(`${Url}/register`, data, {
         // withCredentials: true,
         headers: {
@@ -12,16 +12,23 @@ const registerEmployee = async (data) => {
     })
     return response
 }
-const loginEmployee = async (data) => {
+const loginAdmin = async (data) => {
     const response = await axios.post(`${Url}/login`, data, {
         withCredentials: true,
     })
     return response
 }
 
+const authAdmin = async () => {
+    const response = await axios.get(`${Url}/profile`, {
+        withCredentials: true
+    })
+    return response;
+}
 
 
 export {
-    registerEmployee,
-    loginEmployee
+    registerAdmin,
+    loginAdmin,
+    authAdmin
 }

@@ -46,12 +46,17 @@ const userSchema = new Schema({
 
 
 userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) next();
-    await bcryptjs.hash(this.password, 10);
+    if (!this.isModified('password')) return next();
+    try {
+        this.password = await bcryptjs.hash(this.password, 10);
+        next();
+    } catch (error) {
+        next(error)
+    }
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {
-    await bcryptjs.compare(password, this.password);
+    return await bcryptjs.compare(password, this.password);
 };
 
 userSchema.methods.generateRefreshToken = async function () {

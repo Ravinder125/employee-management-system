@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Input from '../components/Input';
-import { registerEmployee, loginEmployee } from '../services/employee.service';
-import { EmployeeDataContext } from '../context/EmployeeContext';
+import { registerAdmin, loginAdmin } from '../services/admin.service';
+import { AdminDataContext } from '../context/AdminContext';
 import Loading from '../components/Loading';
 
-const EmployeeAuth = () => {
+const AdminAuth = () => {
     const [isRegister, setIsRegister] = useState(true);
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
@@ -15,7 +15,7 @@ const EmployeeAuth = () => {
         avatar: null
     });
     const [isLoading, setIsLoading] = useState(false);
-    const { employeeData, setEmployeeData } = useContext(EmployeeDataContext);
+    const { adminData, setAdminData } = useContext(AdminDataContext);
     const navigate = useNavigate()
 
     const cleanAndToggle = () => {
@@ -70,9 +70,9 @@ const EmployeeAuth = () => {
                     avatar: formData.avatar,
                     username: formData.username
                 };
-                const response = await registerEmployee(registerformData);
+                const response = await registerAdmin(registerformData);
                 if (response.status === 201) {
-                    setEmployeeData(response.data.data);
+                    setAdminData(response.data.data);
                     console.log(response.data.data); // log the fresh data
                 }
                 cleanAndToggle()
@@ -81,9 +81,9 @@ const EmployeeAuth = () => {
                     email: formData.email,
                     password: formData.password,
                 };
-                const response = await loginEmployee(loginData);
+                const response = await loginAdmin(loginData);
                 if (response.status === 200) {
-                    setEmployeeData(response.data.data);
+                    setAdminData(response.data.data);
                     console.log(response.data.data); // log the fresh data
                     navigate('/dashboard')
                 }
@@ -96,8 +96,8 @@ const EmployeeAuth = () => {
     };
 
     useEffect(() => {
-        console.log('Employee Data Updated:', employeeData);
-    }, [employeeData]);
+        console.log('Employee Data Updated:', adminData);
+    }, [adminData]);
 
     return (
         <div className="min-h-screen h-screen flex justify-center items-center p-3 bg-gray-100">
@@ -173,7 +173,6 @@ const EmployeeAuth = () => {
                                 <SocialIcon icon="ri-google-fill" />
                                 <SocialIcon icon="ri-linkedin-fill" />
                             </div>
-                            <Link to='/admin-auth' className='bg-green-600 text-white p-2 text-lg font-bold rounded-lg'>Register as Admin</Link>
                         </form>
                     </div>
                 </div>
@@ -189,4 +188,4 @@ const SocialIcon = ({ icon }) => (
     </h4>
 );
 
-export default EmployeeAuth;
+export default AdminAuth;

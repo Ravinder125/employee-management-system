@@ -11,7 +11,7 @@ const registerAdmin = asyncHandler(async (req, res) => {
         return res.status(400).json(ApiResponse.error(400, errors.array(), 'Validation error'));
     }
 
-    const { email, password, firstname, lastname } = req.body;
+    const { email, password, username } = req.body;
 
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
@@ -33,10 +33,7 @@ const registerAdmin = asyncHandler(async (req, res) => {
     const newAdmin = await Admin.create({
         email,
         password,
-        fullName: {
-            firstName: firstname,
-            lastName: lastname
-        },
+        username,
         avatar: avatarUrl?.url,
         coverImage: coverImageUrl?.url || ''
     })

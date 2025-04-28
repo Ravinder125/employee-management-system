@@ -4,19 +4,12 @@ import jwt from 'jsonwebtoken';
 
 
 const adminSchema = new Schema({
-    fullName: {
-        firstName: {
-            type: String,
-            required: true,
-            minlength: [2, "Firstname must be at least 2 characters long"],
-            trim: true
-        },
-        lastName: {
-            type: String,
-            required: true,
-            minlength: [2, "Firstname must be at least 2 characters long"],
-            trim: true
-        }
+    username: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true,
+        index: true
     },
     email: {
         type: String,
@@ -52,11 +45,16 @@ const adminSchema = new Schema({
 
 adminSchema.pre('save', async function (next) {
     if (!this.isModified('password')) next();
-    await bcryptjs.hash(this.password, 10);
+    try {
+        this.password = await bcryptjs.hash(this.password, 10);
+        next()
+    } catch (error) {
+        next()
+    }
 });
 
 adminSchema.methods.isPasswordCorrect = async function (password) {
-    await bcryptjs.compare(password, this.password);
+    return await bcryptjs.compare(password, this.password);
 };
 
 adminSchema.methods.generateRefreshToken = async function () {

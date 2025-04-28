@@ -4,13 +4,16 @@ import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import EmployeeContext from './context/EmployeeContext.jsx'
+import AdminContext from './context/AdminContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <EmployeeContext>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <AdminContext>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AdminContext>
     </EmployeeContext>
   </StrictMode>,
 )
