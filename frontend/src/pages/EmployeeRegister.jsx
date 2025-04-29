@@ -114,15 +114,14 @@ const EmployeeRegister = () => {
     }, [employeeData]);
 
     return (
-        <div className="min-h-screen h-screen flex justify-center items-center p-3 bg-gray-100">
+        <div className="min-h-screen  flex justify-center items-center p-3 bg-gray-100">
             {isLoading ? (
                 <div><Loading /></div>
             ) : (
-                <div className={`flex flex-col items-center justify-center h-full border border-gray-300 rounded-2xl p-5 w-full max-w-md bg-white shadow-lg`}>
-
+                <div className={`flex flex-col items-center justify-center max-h-full min-h-150  border border-gray-300 rounded-2xl p-5 w-90 max-w-md bg-white shadow-lg`}>
 
                     {/* Main Form */}
-                    <div className="w-full text-center">
+                    <div className="w-full h-full text-center">
                         <form onSubmit={handleSubmit} className={`flex flex-col gap-3 `}>
                             <h3 className="font-extrabold text-3xl mb-1">Register</h3>
                             <Input

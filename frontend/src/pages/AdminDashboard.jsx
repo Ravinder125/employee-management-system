@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AdminDataContext } from '../context/AdminContext'
 
 const AdminDashboard = () => {
+    const { adminData, setAdminData } = useContext(AdminDataContext)
     return (
-        <div>AdminDashboard</div>
+        <div>
+            
+        </div>
     )
 }
 

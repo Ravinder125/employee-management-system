@@ -101,7 +101,7 @@ const AdminLogin = () => {
             {isLoading ? (
                 <div><Loading /></div>
             ) : (
-                <div className={`flex flex-col items-center justify-center h-full border border-gray-300 rounded-2xl p-5 w-full max-w-md bg-white shadow-lg`}>
+                <div className={`flex flex-col items-center justify-center max-h-full min-h-150  border border-gray-300 rounded-2xl p-5 w-90 max-w-md bg-white shadow-lg`}>
                     {/* Main Form */}
                     <div className="w-full text-center">
                         <form onSubmit={handleSubmit} className={`flex flex-col gap-3 `}>
