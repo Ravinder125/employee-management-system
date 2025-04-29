@@ -83,17 +83,17 @@ const TasksPanel = () => {
 
 
     return (
-        <div className={`mt-8  bg-[#333333] p-2 w-full rounded-md transition-all duration-500 ease-in-out
-           ${tasksPanelVisible ? 'h-[86%] fixed left-0 bottom-5' : 'h-[37%] static '} `}>
+        <div className={`mt-8 md:h-3/5 bg-[#333333] overflow-auto hidden-scrollbar px-2 md:p-3 w-full rounded-md transition-all duration-500 ease-in-out
+           ${tasksPanelVisible ? 'h-[86%] fixed left-0 bottom-5' : 'h-[44%] static '} `}>
             <div
                 className={`flex h-8 justify-center  bg-transparent  ${window.innerWidth > 768 ? 'hidden' : ''}`}
                 onClick={() => setTasksVisible(prev => !tasksPanelVisible)}
             >
                 <SocialIcon icon={`ri-arrow-${tasksPanelVisible ? 'down' : 'up'}-wide-fill`} textColor='white' />
             </div>
-            <div className={`flex relative justify-center md:justify-start flex-wrap h-[80%] w-full overflow-y-auto hide-scrollbar ${tasksPanelVisible ? 'h-[90%] gap-2' : 'h-[80%] -gap-10'}`}>
+            <div className={`flex  justify-center gap-2 md:justify-start flex-wrap md:h-full  w-full overflow-y-auto hide-scrollbar ${tasksPanelVisible ? 'h-[90%]' : 'h-[85%]'}`}>
                 {tasks.map((value, idx) => (
-                    <Task id={idx} title={value.title} task={value.task} priority={value.priority} dueDate={value.dueDate} />
+                    <Task key={idx} title={value.title} task={value.task} priority={value.priority} dueDate={value.dueDate} />
                 ))}
             </div>
         </div >

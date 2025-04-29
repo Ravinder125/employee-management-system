@@ -10,6 +10,7 @@ import AdminRegister from '../pages/AdminRegister.jsx'
 import AdminLogin from '../pages/AdminLogin.jsx'
 import AdminProtectWrapper from '../pages/AdminProtectWrapper.jsx'
 import AdminDashboard from '../pages/AdminDashboard.jsx'
+import EmployeeLogout from '../pages/EmployeeLogout.jsx'
 
 const AppRoutes = () => {
     return (
@@ -18,8 +19,12 @@ const AppRoutes = () => {
                 <Route path='/' element={<Start />} />
                 <Route path='/auth' element={<EmployeeAuth />} />
                 <Route path='/register' element={<EmployeeRegister />} />
+                <Route path='/logout' element={
+                    <EmployeeProtectWrapper>
+                        <EmployeeLogout />
+                    </EmployeeProtectWrapper>
+                } />
                 <Route path='/login' element={<EmployeeLogin />} />
-                <Route path='/login' />
                 {/* <Route path='/home' /> */}
                 <Route path='/dashboard' element={
                     <EmployeeProtectWrapper>

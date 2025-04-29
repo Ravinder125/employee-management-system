@@ -20,6 +20,13 @@ const loginEmployee = async (data) => {
     return response
 }
 
+const logoutEmployee = async () => {
+    const response = await axios.get(`${Url}/logout`, {
+        withCredentials: true
+    })
+    return response
+}
+
 const authEmployee = async () => {
     const response = await axios.get(`${Url}/profile`, {
         withCredentials: true
@@ -31,5 +38,6 @@ const authEmployee = async () => {
 export {
     registerEmployee,
     loginEmployee,
+    logoutEmployee,
     authEmployee
 }

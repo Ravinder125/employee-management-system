@@ -19,6 +19,14 @@ const loginAdmin = async (data) => {
     return response
 }
 
+
+const logoutAdmin = async () => {
+    const response = await axios.get(`${Url}/logout`, {
+        withCredentials: true
+    })
+    return response
+}
+
 const authAdmin = async () => {
     const response = await axios.get(`${Url}/profile`, {
         withCredentials: true
