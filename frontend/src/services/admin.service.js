@@ -38,5 +38,6 @@ const authAdmin = async () => {
 export {
     registerAdmin,
     loginAdmin,
+    logoutAdmin,
     authAdmin
 }

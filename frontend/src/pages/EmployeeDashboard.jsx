@@ -7,7 +7,7 @@ const EmployeeDashboard = () => {
     return (
         <div className='min-h-screen h-screen p-3  w-full text-white bg-black '>
             <div className='relative h-full bg-[#222222] rounded-md p-3'>
-                <Header />
+                <Header route='/logout' />
                 <TasksStausBar />
                 <TaskList />
             </div>

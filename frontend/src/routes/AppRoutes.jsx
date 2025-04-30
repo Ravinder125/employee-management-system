@@ -5,11 +5,12 @@ import EmployeeDashboard from '../pages/EmployeeDashboard'
 import EmployeeProtectWrapper from '../pages/EmployeeProtectWrapper.jsx'
 import EmployeeRegister from '../pages/EmployeeRegister.jsx'
 import EmployeeLogin from '../pages/EmployeeLogin.jsx'
+import EmployeeLogout from '../pages/EmployeeLogout.jsx'
 import AdminRegister from '../pages/AdminRegister.jsx'
 import AdminLogin from '../pages/AdminLogin.jsx'
 import AdminProtectWrapper from '../pages/AdminProtectWrapper.jsx'
 import AdminDashboard from '../pages/AdminDashboard.jsx'
-import EmployeeLogout from '../pages/EmployeeLogout.jsx'
+import AdminLogout from '../pages/AdminLogout.jsx'
 
 const AppRoutes = () => {
     return (
@@ -30,10 +31,9 @@ const AppRoutes = () => {
                     </EmployeeProtectWrapper>
                 } />
                 < Route path='/profile' />
-                <Route path='/logout' />
-
                 <Route path='/admin-register' element={<AdminRegister />} />
                 <Route path='/admin-login' element={<AdminLogin />} />
+                <Route path='/admin-logout' element={<AdminLogout />} />
                 <Route path='/admin-home' />
                 <Route path='/admin-dashboard' element={
                     <AdminProtectWrapper>
