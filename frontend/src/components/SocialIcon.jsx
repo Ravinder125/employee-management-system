@@ -1,7 +1,7 @@
 import React from 'react'
 
 const SocialIcon = ({ icon }) => (
-    <h4 className="text-white w-10 h-10 flex justify-center items-center rounded-full hover:bg-gray-200">
+    <h4 className="w-8 h-8 flex justify-center items-center rounded-full">
         <i className={`${icon} text-xl `}></i>
     </h4>
 );

@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import SocialIcon from './SocialIcon';
 
 const Input = ({ type, name, value, onChange, placeholder, icon, error }) => {
     const [isFocus, setIsFocus] = useState(false);
 
     return (
         <div className="w-full">
-            <div className={`border flex items-center gap-2 border-gray-400 p-2 bg-gray-100 rounded-lg shadow-md transition-all
-                ${isFocus ? 'ring-2 ring-yellow-400' : ''}`}>
+            <div className={`border flex items-center gap-2 border-gray-400 p-2 rounded-lg shadow-md transition-all
+                 ${error ? 'border-red-500' : 'border-gray-400 '}`}>
                 {icon && (
-                    <i className={`ri-${icon}-fill text-gray-500 text-lg`}></i>
+                    <SocialIcon
+                        icon={'ri-' + icon + '-fill'}
+                    />
                 )}
                 <input
                     type={type}
@@ -16,9 +19,10 @@ const Input = ({ type, name, value, onChange, placeholder, icon, error }) => {
                     value={value}
                     onChange={onChange}
                     placeholder={placeholder}
-                    className="flex-1 bg-transparent focus:outline-none text-gray-700"
+                    className="flex-1 bg-transparent focus:outline-none placeholder:text-gray-300"
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
+                    required
                 />
             </div>
             {error && (

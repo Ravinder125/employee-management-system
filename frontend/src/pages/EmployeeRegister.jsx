@@ -114,11 +114,11 @@ const EmployeeRegister = () => {
     }, [employeeData]);
 
     return (
-        <div className="min-h-screen  flex justify-center items-center p-3 bg-gray-100">
+        <div className="min-h-screen bg-black flex justify-center items-center p-3 ">
             {isLoading ? (
                 <div><Loading /></div>
             ) : (
-                <div className={`flex flex-col items-center justify-center max-h-full min-h-150  border border-gray-300 rounded-2xl p-5 w-90 max-w-md bg-white shadow-lg`}>
+                <div className={`flex bg-[#222222] flex-col text-white items-center justify-center max-h-full min-h-150  border border-gray-300 rounded-2xl p-5 w-90 max-w-md shadow-lg`}>
 
                     {/* Main Form */}
                     <div className="w-full h-full text-center">
@@ -165,16 +165,16 @@ const EmployeeRegister = () => {
                                 onChange={handleInputChange}
                                 icon="file"
                             />
-                            <button className="border p-2 font-bold text-xl rounded-lg bg-yellow-400 text-white">Register</button>
+                            <button className="border border-yellow-500 p-2 font-bold text-xl rounded-lg bg-yellow-400 text-white">Register</button>
                             <p className='text-sm'>Don't have a account ? <Link to='/login' className='text-blue-500'>Login here </Link></p>
-                            <p className="text-sm text-gray-600">Or login with social platforms</p>
+                            <p className="text-xs text-gray-300">Or login with social platforms</p>
                             <div className="flex gap-2 justify-center">
                                 <SocialIcon icon="ri-github-fill" />
                                 <SocialIcon icon="ri-facebook-fill" />
                                 <SocialIcon icon="ri-google-fill" />
                                 <SocialIcon icon="ri-linkedin-fill" />
                             </div>
-                            <Link to='/admin-register' className='mt-3 bg-green-600 text-white p-2 text-lg font-bold rounded-lg'>Register as Admin</Link>
+                            <Link to='/admin-register' className='mt-3 border border-green-700 bg-green-600 text-white p-2 text-lg font-bold rounded-lg'>Register as Admin</Link>
                         </form>
                     </div>
                 </div>

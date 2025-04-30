@@ -112,11 +112,11 @@ const AdminRegister = () => {
     }, [adminData]);
 
     return (
-        <div className="min-h-screen h-screen flex justify-center items-center p-3 bg-gray-100">
+        <div className="min-h-screen bg-black flex justify-center items-center p-3 ">
             {isLoading ? (
                 <div><Loading /></div>
             ) : (
-                <div className={`flex flex-col items-center justify-center max-h-full min-h-150  border border-gray-300 rounded-2xl p-5 w-90 max-w-md bg-white shadow-lg`}>
+                <div className={`flex bg-[#222222] flex-col text-white items-center justify-center max-h-full min-h-150  border border-gray-300 rounded-2xl p-5 w-90 max-w-md shadow-lg`}>
                     {/* Main Form */}
                     <div className="w-full text-center">
                         <form onSubmit={handleSubmit} className={`flex flex-col gap-3 `}>
