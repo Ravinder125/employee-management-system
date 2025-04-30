@@ -136,7 +136,7 @@ const EmployeeLogin = () => {
                                 error={errors.confirmPassword}
                                 icon="lock-password"
                             />
-                            <button className="border p-2 font-bold text-xl rounded-lg bg-yellow-400 text-white">Login</button>
+                            <button className="border border-yellow-500 p-2 font-bold text-xl rounded-lg bg-yellow-400 text-white">Login</button>
                             <p className='text-sm'>Don't have a account ? <Link to='/register' className='text-blue-500'>Register here </Link></p>
                             <p className="text-sm text-gray-600">Or login with social platforms</p>
                             <div className="flex gap-2 justify-center">
@@ -145,7 +145,7 @@ const EmployeeLogin = () => {
                                 <SocialIcon icon="ri-google-fill" />
                                 <SocialIcon icon="ri-linkedin-fill" />
                             </div>
-                            <Link to='/admin-login' className='mt-3 bg-green-600 text-white p-2 text-lg font-bold rounded-lg'>Login as Admin</Link>
+                            <Link to='/admin-login' className='mt-3 border-green-700 bg-green-600 text-white p-2 text-lg font-bold rounded-lg'>Login as Admin</Link>
                         </form>
                     </div>
                 </div>
