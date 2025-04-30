@@ -3,7 +3,7 @@ import Task from './Task'
 import SocialIcon from './SocialIcon'
 
 
-const TasksPanel = () => {
+const TaskList = () => {
     const [tasksPanelVisible, setTasksVisible] = useState(false)
     const tasks = [
 
@@ -76,6 +76,76 @@ const TasksPanel = () => {
             "task": "Analyze user feedback and summarize findings",
             "priority": "High",
             "dueDate": "2025-05-03"
+        },
+        {
+            "id": 6,
+            "title": "Code Review",
+            "task": "Review team pull requests",
+            "priority": "Medium",
+            "dueDate": "2025-04-30"
+        },
+        {
+            "id": 7,
+            "title": "File Organization",
+            "task": "Organize digital files and folders",
+            "priority": "Low",
+            "dueDate": "2025-05-06"
+        },
+        {
+            "id": 8,
+            "title": "Presentation Preparation",
+            "task": "Create slides for monthly presentation",
+            "priority": "High",
+            "dueDate": "2025-05-02"
+        },
+        {
+            "id": 9,
+            "title": "Intern Onboarding",
+            "task": "Conduct onboarding session for new intern",
+            "priority": "Medium",
+            "dueDate": "2025-05-04"
+        },
+        {
+            "id": 10,
+            "title": "User Feedback Analysis",
+            "task": "Analyze user feedback and summarize findings",
+            "priority": "High",
+            "dueDate": "2025-05-03"
+        },
+        {
+            "id": 6,
+            "title": "Code Review",
+            "task": "Review team pull requests",
+            "priority": "Medium",
+            "dueDate": "2025-04-30"
+        },
+        {
+            "id": 7,
+            "title": "File Organization",
+            "task": "Organize digital files and folders",
+            "priority": "Low",
+            "dueDate": "2025-05-06"
+        },
+        {
+            "id": 8,
+            "title": "Presentation Preparation",
+            "task": "Create slides for monthly presentation",
+            "priority": "High",
+            "dueDate": "2025-05-02"
+        },
+        {
+            "id": 9,
+            "title": "Intern Onboarding",
+            "task": "Conduct onboarding session for new intern",
+            "priority": "Medium",
+            "dueDate": "2025-05-04"
+        },
+        {
+            "id": 10,
+            "title": "User Feedback Analysis",
+            "task": "Analyze user feedback and summarize findings",
+            "priority": "High",
+            "dueDate": "2025-05-03"
         }
     ]
 
@@ -83,8 +153,8 @@ const TasksPanel = () => {
 
 
     return (
-        <div className={`mt-8 md:h-3/5 bg-[#333333] overflow-auto hidden-scrollbar px-2 md:p-3 w-full rounded-md transition-all duration-500 ease-in-out
-           ${tasksPanelVisible ? 'h-[86%] fixed left-0 bottom-5' : 'h-[44%] static '} `}>
+        <div className={`mt-8 md:h-3/5 bg-[#333333] overflow-auto hidden-scrollbar px-2 md:p-5 lg:rounded-md xl:h-[70%] w-full  transition-all duration-500 ease-in-out
+           ${tasksPanelVisible ? 'h-[86%] fixed left-0 bottom-0' : 'h-[44%] static '} `}>
             <div
                 className={`flex h-8 justify-center  bg-transparent  ${window.innerWidth > 768 ? 'hidden' : ''}`}
                 onClick={() => setTasksVisible(prev => !tasksPanelVisible)}
@@ -100,4 +170,4 @@ const TasksPanel = () => {
     )
 }
 
-export default TasksPanel
+export default TaskList

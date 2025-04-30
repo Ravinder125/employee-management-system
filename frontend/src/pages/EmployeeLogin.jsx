@@ -8,6 +8,7 @@ import SocialIcon from '../components/SocialIcon';
 
 const EmployeeLogin = () => {
     const [errors, setErrors] = useState({});
+    const [apiError, setApiError] = useState('')
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -88,6 +89,7 @@ const EmployeeLogin = () => {
             }
         } catch (error) {
             console.error('Error:', error)
+            setApiError(error.response.data.error)
         } finally {
             cleanInputs()
             setIsLoading(false)
@@ -97,7 +99,12 @@ const EmployeeLogin = () => {
 
     useEffect(() => {
         console.log('Employee Data Updated:', employeeData);
-    }, [employeeData]);
+        if (apiError) {
+            setTimeout(() => {
+                setApiError('');
+            }, 4000);
+        }
+    }, [employeeData, apiError]);
 
     return (
         <div className="min-h-screen bg-black flex justify-center items-center p-3 ">
@@ -136,9 +143,10 @@ const EmployeeLogin = () => {
                                 error={errors.confirmPassword}
                                 icon="lock-password"
                             />
+                            {apiError && (<div className='text-sm text-red-400'>{apiError}</div>)}
                             <button className="border border-yellow-500 p-2 font-bold text-xl rounded-lg bg-yellow-400 text-white">Login</button>
                             <p className='text-sm'>Don't have a account ? <Link to='/register' className='text-blue-500'>Register here </Link></p>
-                            <p className="text-sm text-gray-600">Or login with social platforms</p>
+                            <p className="text-xs text-gray-300">Or login with social platforms</p>
                             <div className="flex gap-2 justify-center">
                                 <SocialIcon icon="ri-github-fill" />
                                 <SocialIcon icon="ri-facebook-fill" />

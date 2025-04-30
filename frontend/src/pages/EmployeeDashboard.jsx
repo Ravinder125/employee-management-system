@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../components/Header'
 import TasksStausBar from '../components/TasksStausBar'
-import TasksPanel from '../components/TaskList'
+import TaskList from '../components/TaskList'
 
 const EmployeeDashboard = () => {
     return (
@@ -9,7 +9,7 @@ const EmployeeDashboard = () => {
             <div className='relative h-full bg-[#222222] rounded-md p-3'>
                 <Header />
                 <TasksStausBar />
-                <TasksPanel />
+                <TaskList />
             </div>
         </div>
     )

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Start from '../pages/Start'
-import EmployeeAuth from '../pages/EmployeeAuth.jsx'
 import EmployeeDashboard from '../pages/EmployeeDashboard'
 import EmployeeProtectWrapper from '../pages/EmployeeProtectWrapper.jsx'
 import EmployeeRegister from '../pages/EmployeeRegister.jsx'
@@ -17,7 +16,6 @@ const AppRoutes = () => {
         <div>
             <Routes>
                 <Route path='/' element={<Start />} />
-                <Route path='/auth' element={<EmployeeAuth />} />
                 <Route path='/register' element={<EmployeeRegister />} />
                 <Route path='/logout' element={
                     <EmployeeProtectWrapper>

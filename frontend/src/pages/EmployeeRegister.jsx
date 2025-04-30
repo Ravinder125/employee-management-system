@@ -8,6 +8,7 @@ import SocialIcon from '../components/SocialIcon';
 
 const EmployeeRegister = () => {
     const [errors, setErrors] = useState({});
+    const [apiError, setApiError] = useState('')
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -111,7 +112,12 @@ const EmployeeRegister = () => {
 
     useEffect(() => {
         console.log('Employee Data Updated:', employeeData);
-    }, [employeeData]);
+        if (apiError) {
+            setTimeout(() => {
+                setApiError('');
+            }, 4000)
+        }
+    }, [employeeData, apiError]);
 
     return (
         <div className="min-h-screen bg-black flex justify-center items-center p-3 ">
@@ -165,6 +171,7 @@ const EmployeeRegister = () => {
                                 onChange={handleInputChange}
                                 icon="file"
                             />
+                            {apiError && (<div className='text-sm text-red-400'>{apiError}</div>)}
                             <button className="border border-yellow-500 p-2 font-bold text-xl rounded-lg bg-yellow-400 text-white">Register</button>
                             <p className='text-sm'>Don't have a account ? <Link to='/login' className='text-blue-500'>Login here </Link></p>
                             <p className="text-xs text-gray-300">Or login with social platforms</p>

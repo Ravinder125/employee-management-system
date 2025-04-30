@@ -8,6 +8,7 @@ import SocialIcon from '../components/SocialIcon';
 
 const AdminRegister = () => {
     const [errors, setErrors] = useState({});
+    const [apiError, setApiError] = useState('')
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -101,6 +102,7 @@ const AdminRegister = () => {
             }
         } catch (error) {
             console.error('Error:', error);
+            setApiError(error.response.data.error)
         } finally {
             cleanInputs()
             setIsLoading(false);
@@ -109,7 +111,12 @@ const AdminRegister = () => {
 
     useEffect(() => {
         console.log('Admin Data Updated:', adminData);
-    }, [adminData]);
+        if (apiError) {
+            setTimeout(() => {
+                setApiError('');
+            }, 4000)
+        }
+    }, [adminData, apiError]);
 
     return (
         <div className="min-h-screen bg-black flex justify-center items-center p-3 ">
@@ -162,16 +169,17 @@ const AdminRegister = () => {
                                 onChange={handleInputChange}
                                 icon="file"
                             />
+                            {apiError && (<div className='text-sm text-red-400'>{apiError}</div>)}
                             <button className="border border-yellow-500 p-2 font-bold text-xl rounded-lg bg-yellow-400 text-white">Register</button>
                             <p className='text-sm'>Don't have a account ? <Link to='/admin-login' className='text-blue-500'>Login here </Link></p>
-                            <p className="text-sm text-gray-600">Or login with social platforms</p>
+                            <p className="text-xs text-gray-300">Or login with social platforms</p>
                             <div className="flex gap-2 justify-center">
                                 <SocialIcon icon="ri-github-fill" />
                                 <SocialIcon icon="ri-facebook-fill" />
                                 <SocialIcon icon="ri-google-fill" />
                                 <SocialIcon icon="ri-linkedin-fill" />
                             </div>
-                            <Link to='/register' className='mt-3 border border-yellow-700 bg-green-600 text-white p-2 text-lg font-bold rounded-lg'>Register as Employee</Link>
+                            <Link to='/register' className='mt-3 border border-green-700 bg-green-600 text-white p-2 text-lg font-bold rounded-lg'>Register as Employee</Link>
                         </form>
                     </div>
                 </div>

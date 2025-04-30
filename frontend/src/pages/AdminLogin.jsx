@@ -8,6 +8,7 @@ import SocialIcon from '../components/SocialIcon';
 
 const AdminLogin = () => {
     const [errors, setErrors] = useState({});
+    const [apiError, setApiError] = useState('');
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -80,21 +81,26 @@ const AdminLogin = () => {
             if (response.status === 200) {
                 setAdminData(response.data.data);
                 console.log(response.data.data);
-                navigate('/admin-dashboard')
+                navigate('/admin-dashboard');
             }
         } catch (error) {
-            console.error('Error:', error)
+            console.error('Error:', error);
+            setApiError(error.response.data.error);
         } finally {
-            cleanInputs()
-            setIsLoading(false)
-
+            cleanInputs();
+            setIsLoading(false);
         }
 
     }
 
     useEffect(() => {
         console.log('Admin Data Updated:', adminData);
-    }, [adminData]);
+        if (apiError) {
+            setTimeout(() => {
+                setApiError('');
+            }, 4000);
+        }
+    }, [adminData, apiError]);
 
     return (
         <div className="min-h-screen bg-black flex justify-center items-center p-3 ">
@@ -133,9 +139,10 @@ const AdminLogin = () => {
                                 error={errors.confirmPassword}
                                 icon="lock-password"
                             />
+                            {apiError && (<div className='text-sm text-red-400'>{apiError}</div>)}
                             <button className="border border-yellow-500 p-2 font-bold text-xl rounded-lg bg-yellow-400 text-white">Login</button>
                             <p className='text-sm'>Don't have a account ? <Link to='/admin-register' className='text-blue-500'>Register here </Link></p>
-                            <p className="text-sm text-gray-600">Or login with social platforms</p>
+                            <p className="text-xs text-gray-300">Or login with social platforms</p>
                             <div className="flex gap-2 justify-center">
                                 <SocialIcon icon="ri-github-fill" />
                                 <SocialIcon icon="ri-facebook-fill" />
