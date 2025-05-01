@@ -4,28 +4,30 @@ import { validationResult } from "express-validator";
 import { Todo } from "../models/todo.model.js";
 import mongoose from "mongoose";
 import { Admin } from "../models/admin.model.js";
+import { User } from "../models/user.model.js";
 
 
 const createTodo = asyncHandler(async (req, res) => {
     const adminId = req.admin._id;
-    const { userId } = req.params
-    if (!userId) return res.status(400).json(ApiResponse.error(400, 'User id is required'))
 
-    const userMongooseId = new mongoose.Types.ObjectId(userId)
     const errors = validationResult(req)
-    if (!errors) return res.status(400).json(ApiResponse.error(400, errors.array(), 'Validation error'))
-
-    const { title, description } = req.body
+    if (!errors) return res.status(400).json(ApiResponse.error(400, errors.array(), 'Validation error'));
+    const { title, description, date, assignedTo, priority } = req.body
     console.log(title, description)
 
-    const isTodoExists = await Todo.findOne({ title, createdBy: adminId, assignedTo: userMongooseId })
-    if (isTodoExists) return res.status(400).json(ApiResponse.error(400, 'Todo already exist'))
+    const user = await User.findOne({ username: assignedTo });
+    if (!user) return res.status(200).json(ApiResponse.error(404, 'User not found'))
+
+    const isTodoExists = await Todo.findOne({ title, createdBy: adminId, assignedTo: user._id, isDeleted: false })
+    if (isTodoExists) return res.status(400).json(ApiResponse.error(404, 'Todo already exist'))
 
     const newTodo = await Todo.create({
         title,
         description,
         createdBy: adminId,
-        assignedTo: userMongooseId
+        assignedTo: user._id,
+        priority,
+        dueTo: date
     })
 
     if (!newTodo) return res.status(400).json(ApiResponse.error(400, 'Error while creating todo'))
@@ -66,7 +68,7 @@ const toggleDeleteTodo = asyncHandler(async (req, res) => {
     const todoMongooseId = new mongoose.Types.ObjectId(todoId)
 
     const todo = await Todo.findById(todoMongooseId);
-    if (!todo) return res.status(400).json(ApiResponse.error(400, "Todo doesn't exist"));
+    if (!todo) return res.status(404).json(ApiResponse.error(404, "no todo found "));
 
     const deletedTodo = await Todo.findByIdAndUpdate(
         todoMongooseId,
@@ -74,7 +76,7 @@ const toggleDeleteTodo = asyncHandler(async (req, res) => {
         { new: true }
     );
 
-    if (!deletedTodo) return res.status(400).json(ApiResponse.error(400, "Todo doesn't exist"));
+    if (!deletedTodo) return res.status(404).json(ApiResponse.error(404, "no todo found "));
 
     return res.status(200).json(ApiResponse.success(200, deletedTodo, 'Todo successfully deleted'))
 

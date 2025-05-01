@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
-import Header from './Header'
 import SocialIcon from './SocialIcon'
 import Input from './Input'
 import { createTask } from '../services/task.service'
 import Loading from '../components/Loading'
 
 const CreateTask = (props) => {
-    const { createTaskPanel, setCreateTaskPanel } = props.createTaskPanel;
+    const { setCreateTaskPanel } = props.createTaskPanel;
     const { employees, setEmployees } = props.employees
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        AssingTo: '',
+        assignedTo: '',
         priority: 'medium',
         date: '',
         category: ''
@@ -51,9 +50,6 @@ const CreateTask = (props) => {
             setFormData(prev => ({ ...prev, [name]: value }));
             setErrors(prev => ({ ...prev, [name]: validate(name, value) }));
         }
-        if (name === 'assign-to') {
-            setFormData(prev => ({ ...prev, 'AssingTo': value }));
-        }
         if (!value) {
             setErrors(prev => ({ ...prev, [name]: '' }));
         }
@@ -71,7 +67,7 @@ const CreateTask = (props) => {
         const taskData = {
             title: formData.title,
             description: formData.description,
-            AssingTo: formData.AssingTo,
+            assignedTo: formData.assignedTo,
             priority: formData.priority,
             date: formData.date
         }
@@ -87,14 +83,14 @@ const CreateTask = (props) => {
             console.error(error);
 
         } finally {
-            setFormData({
-                title: '',
-                description: '',
-                AssingTo: '',
-                priority: 'medium',
-                date: '',
-                category: ''
-            })
+            // setFormData({
+            //     title: '',
+            //     description: '',
+            //     assignedTo: '',
+            //     priority: 'medium',
+            //     date: '',
+            //     category: ''
+            // })
             setILoading(false)
         }
     }
@@ -144,18 +140,19 @@ const CreateTask = (props) => {
                     />
                 </div>
                 <div className='flex flex-col gap-2'>
-                    <label htmlFor='AssignTo' className='font-medium'>Assign To</label>
+                    <label htmlFor='assignedTo' className='font-medium'>Assign To</label>
                     <select
-                        name='assing-to'
-                        value={formData.AssingTo}
+                        name='assignedTo'
+                        value={formData.assignedTo}
                         onChange={handleInputChange}
                         className='bg-[#333333] text-gray-50 rounded-md p-2 text-sm w-full '
                     >
+                        <option value="" disabled>Select an employee</option>
                         {employees.map((member, id) => (
                             <option
                                 className='text-white bg-black'
                                 key={id}
-                                value={member._id}>
+                                value={member.username}>
                                 {member.username}
                             </option>
                         ))}

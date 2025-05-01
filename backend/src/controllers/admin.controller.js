@@ -85,6 +85,14 @@ const getProfile = asyncHandler(async (req, res) => {
                     }
                 ]
             }
+        },
+        {
+            $lookup: {
+                from: 'todos',
+                localField: '_id',
+                foreignField: 'createdBy',
+                as: 'todos',
+            }
         }
     ])
 

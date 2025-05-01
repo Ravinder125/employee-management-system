@@ -72,8 +72,23 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const getProfile = asyncHandler(async (req, res) => {
     const userId = req.user._id;
-    const user = await User.findById(userId);
+    const user = await User.aggregate([
+        {
+            $match: { _id: userId }
+        },
+        {
+            $lookup: {
+                from: 'todos',
+                localField: '_id',
+                foreignField: 'assignedTo',
+                as: 'todos',
+            }
+        }
+    ])
 
+    if (!user) {
+        return res.status(400).json(ApiResponse.error(400, 'Admin not found'))
+    }
     return res.status(200).json(ApiResponse.success(200, user, 'User profile successfully fetched'))
 })
 
