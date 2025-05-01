@@ -3,10 +3,9 @@ import Task from './Task'
 import SocialIcon from './SocialIcon'
 
 
-const TaskList = () => {
-    const [tasksPanelVisible, setTasksVisible] = useState(false)
+const TaskList = (props) => {
+    const { tasksPanelVisible, setTasksPanelVisible } = props.tasksPanelVisible
     const tasks = [
-
         {
             "id": 1,
             "title": "Sales Reporting",
@@ -153,15 +152,14 @@ const TaskList = () => {
 
 
     return (
-        <div className={`mt-8 md:h-3/5 bg-[#333333] overflow-auto hidden-scrollbar px-2 md:p-5 lg:rounded-md xl:h-[70%] w-full  transition-all duration-500 ease-in-out
-           ${tasksPanelVisible ? 'h-[86%] fixed left-0 bottom-0' : 'h-[44%] static '} `}>
+        <div className={`h-full overflow-y-auto hide-scrollbar bg-[#333333] p-2 md:p-5 lg:rounded-md w-full transition-all duration-500 ease-in-out`}>
             <div
-                className={`flex h-8 justify-center  bg-transparent  ${window.innerWidth > 768 ? 'hidden' : ''}`}
-                onClick={() => setTasksVisible(prev => !tasksPanelVisible)}
+                className={`flex h-8 justify-center  bg-transparent  xl:hidden`}
+                onClick={() => setTasksPanelVisible(!tasksPanelVisible)}
             >
                 <SocialIcon icon={`ri-arrow-${tasksPanelVisible ? 'down' : 'up'}-wide-fill`} textColor='white' />
             </div>
-            <div className={`flex  justify-center gap-2 md:justify-start flex-wrap md:h-full  w-full overflow-y-auto hide-scrollbar ${tasksPanelVisible ? 'h-[90%]' : 'h-[85%]'}`}>
+            <div className={`flex justify-center gap-5 md:justify-start flex-wrap md:h-full h-[94%]  w-full overflow-y-auto hide-scrollbar`}>
                 {tasks.map((value, idx) => (
                     <Task key={idx} title={value.title} task={value.task} priority={value.priority} dueDate={value.dueDate} />
                 ))}

@@ -6,7 +6,7 @@ const Input = ({ type, name, value, onChange, placeholder, icon, error }) => {
 
     return (
         <div className="w-full">
-            <div className={`border flex items-center gap-2 border-gray-400 p-2 rounded-lg shadow-md transition-all
+            <div className={`flex items-center bg-[#333333] gap-2 border-gray-400 px-3 py-2 text-sm rounded-md shadow-md transition-all
                  ${error ? 'border-red-500' : 'border-gray-400 '}`}>
                 {icon && (
                     <SocialIcon
