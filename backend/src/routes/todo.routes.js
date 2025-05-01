@@ -10,7 +10,7 @@ const router = Router();
 router.route('/').get(authAdmin, getAllTodos)
 
 router
-    .route('/:userId')
+    .route('/')
     .post(authAdmin,
         [
             body('title').isEmpty().withMessage('Title is required'),

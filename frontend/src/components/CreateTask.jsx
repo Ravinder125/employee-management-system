@@ -2,8 +2,12 @@ import React, { useState } from 'react'
 import Header from './Header'
 import SocialIcon from './SocialIcon'
 import Input from './Input'
+import { createTask } from '../services/task.service'
+import Loading from '../components/Loading'
 
 const CreateTask = (props) => {
+    const { createTaskPanel, setCreateTaskPanel } = props.createTaskPanel;
+    const { employees, setEmployees } = props.employees
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -13,6 +17,7 @@ const CreateTask = (props) => {
         category: ''
     })
 
+    const [isLoading, setILoading] = useState(false)
     const [errors, setErrors] = useState({})
     const [apiError, setApiError] = useState('')
 
@@ -39,7 +44,6 @@ const CreateTask = (props) => {
                 return '';
         }
     }
-    const { createTask, setCreateTask } = props.createTask;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -55,37 +59,57 @@ const CreateTask = (props) => {
         }
     }
 
-    const members = [
-        {
-            id: 1,
-            email: 'john.doe@example.com',
-            username: 'johndoe'
-        },
-        {
-            id: 2,
-            email: 'jane.smith@example.com',
-            username: 'janesmith'
-        },
-        {
-            id: 3,
-            email: 'michael.brown@example.com',
-            username: 'michaelbrown'
-        },
-        {
-            id: 4,
-            email: 'emily.jones@example.com',
-            username: 'emilyjones'
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        // if (errors) {
+        //     return alert('Please fix the errors before submitting the form')
+        // }
+
+        // if (!formData.title || !formData.description || !formData.AssingTo || !formData.priority || !formData.date) {
+        //     return alert('Please fill all the fields');
+        // }
+        const taskData = {
+            title: formData.title,
+            description: formData.description,
+            AssingTo: formData.AssingTo,
+            priority: formData.priority,
+            date: formData.date
         }
-    ];
+        console.log(taskData)
+        setILoading(true)
+        try {
+            const response = await createTask(taskData);
+            if (response.status === 201) {
+                console.log('Task created successfully', response.data.data);
+            }
+        } catch (error) {
+            setApiError('Failed to create task');
+            console.error(error);
+
+        } finally {
+            setFormData({
+                title: '',
+                description: '',
+                AssingTo: '',
+                priority: 'medium',
+                date: '',
+                category: ''
+            })
+            setILoading(false)
+        }
+    }
+    if (isLoading) {
+        return <div><Loading /></div>
+    }
     return (
         <div className='w-full h-full p-3 bg-[#222222] rounded-md overflow-auto hide-scrollbar'>
             <div className='flex items-center gap-2'>
-                <button onClick={() => setCreateTask(false)} className='hover:bg-[#111111] text-white rounded-md'>
+                <button onClick={() => setCreateTaskPanel(false)} className='hover:bg-[#111111] text-white rounded-md'>
                     <SocialIcon icon='ri-arrow-left-line' hW='h-10 w-10' textSize='text-3xl' />
                 </button>
                 <h1 className='text-2xl'>Create Task</h1>
             </div>
-            <form className='flex flex-col gap-3 p-3'>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-3 p-3'>
                 <div className='flex flex-col gap-1'>
                     <label htmlFor="Title" className='font-medium'>Task Title</label>
                     <Input
@@ -120,28 +144,28 @@ const CreateTask = (props) => {
                     />
                 </div>
                 <div className='flex flex-col gap-2'>
-                    <label htmlFor='assign-to' className='font-medium'>Assign To</label>
+                    <label htmlFor='AssignTo' className='font-medium'>Assign To</label>
                     <select
-                        name='priority'
-                        value={formData.priority}
+                        name='assing-to'
+                        value={formData.AssingTo}
                         onChange={handleInputChange}
                         className='bg-[#333333] text-gray-50 rounded-md p-2 text-sm w-full '
                     >
-                        {members.map((member, id) => (
+                        {employees.map((member, id) => (
                             <option
                                 className='text-white bg-black'
                                 key={id}
-                                value={member.id}>
+                                value={member._id}>
                                 {member.username}
                             </option>
                         ))}
                     </select>
                 </div>
                 <div className='flex flex-col gap-2'>
-                    <label htmlFor='assign-to' className='font-medium'>Assign To</label>
+                    <label htmlFor='Priority' className='font-medium'>Priority</label>
                     <select
-                        name='assing-to'
-                        value={formData.AssingTo}
+                        name='priority'
+                        value={formData.priority}
                         onChange={handleInputChange}
                         className='bg-[#333333] text-gray-50 rounded-md p-2 text-sm w-full '
                     >
@@ -165,7 +189,7 @@ const CreateTask = (props) => {
                         onChange={handleInputChange}
                     />
                 </div>
-                <button className='mt-1 bg-black p-2 rounded-md font-bold text-lg'>Create Task</button>
+                <button type='submit' className='mt-1 bg-black p-2 rounded-md font-bold text-lg'>Create Task</button>
             </form >
         </div >
     )

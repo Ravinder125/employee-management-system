@@ -16,7 +16,8 @@ router
         ]),
         [
             body('username').isEmpty().withMessage('Username is required'),
-            body('email').isEmail().withMessage('Email is not valid'),
+            body('email').isEmail().withMessage('Email is invalid'),
+            body('AdminEmail').isEmail().withMessage('Admin email is invalid'),
             body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
         ],
         registerUser

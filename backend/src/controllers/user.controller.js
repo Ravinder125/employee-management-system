@@ -1,9 +1,10 @@
 import { asyncHandler } from '../utils/asynchandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
-import { body, validationResult } from 'express-validator';
+import { validationResult } from 'express-validator';
 import { User } from '../models/user.model.js';
 import { generateTokenForUser } from '../utils/generateToken.js';
 import { uploadOnCloudinary } from '../utils/cloudinary.js';
+import { Admin } from '../models/admin.model.js';
 
 const registerUser = asyncHandler(async (req, res) => {
     const errors = validationResult(req);
@@ -11,14 +12,15 @@ const registerUser = asyncHandler(async (req, res) => {
         return res.status(400).json(ApiResponse.error(400, errors.array(), 'Validation error'));
     }
 
-    const { email, password, username } = req.body;
+    const { email, password, username, AdminEmail } = req.body;
 
+    if (!AdminEmail) {
+        return res.status(400).json(ApiResponse.error(400, 'Admin email is required'));
+    }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
         return res.status(400).json(ApiResponse.error(400, 'User already exists'))
     }
-
-
 
     const coverImageLocalPath = req.files?.coverImage?.[0]?.path
     const avatarLocalPath = req.files?.avatar?.[0]?.path
@@ -30,9 +32,15 @@ const registerUser = asyncHandler(async (req, res) => {
     const coverImageUrl = await uploadOnCloudinary(coverImageLocalPath)
     const avatarUrl = await uploadOnCloudinary(avatarLocalPath)
 
+    const admin = await Admin.findOne({ email: AdminEmail })
+    if (!admin) {
+        return res.status(400).json(ApiResponse.error(400, 'Admin not found'))
+    }
+
     const newUser = await User.create({
         email,
         password,
+        admin: admin._id,
         username,
         avatar: avatarUrl?.url,
         coverImage: coverImageUrl?.url || ''

@@ -12,6 +12,7 @@ const EmployeeRegister = () => {
     const [formData, setFormData] = useState({
         username: '',
         email: '',
+        AdminEmail: '',
         password: '',
         confirmPassword: '',
         avatar: null
@@ -33,7 +34,7 @@ const EmployeeRegister = () => {
 
     const validate = (name, value) => {
         switch (name) {
-            case 'email':
+            case 'email' || 'admin-email':
                 if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
                     return 'Invalid email format';
                 }
@@ -62,6 +63,9 @@ const EmployeeRegister = () => {
             case 'confirm-password':
                 setFormData(prev => ({ ...prev, 'confirmPassword': value }))
                 setErrors(prev => ({ ...prev, 'confirmPassword': validate(name, value) }));
+            case 'admin-email':
+                setFormData(prev => ({ ...prev, 'AdminEmail': value }))
+                setErrors(prev => ({ ...prev, 'AdminEmail': validate(name, value) }));
             default:
                 setFormData(prev => ({ ...prev, [name]: value }));
                 setErrors(prev => ({ ...prev, [name]: validate(name, value) }));
@@ -78,6 +82,7 @@ const EmployeeRegister = () => {
         e.preventDefault();
 
         if (!formData.email ||
+            !formData.AdminEmail ||
             !formData.password ||
             !formData.confirmPassword ||
             !formData.username ||
@@ -89,6 +94,7 @@ const EmployeeRegister = () => {
         const registerformData = {
             email: formData.email,
             password: formData.password,
+            AdminEmail: formData.AdminEmail,
             confirmPassword: formData.confirmPassword,
             avatar: formData.avatar,
             username: formData.username
@@ -170,6 +176,15 @@ const EmployeeRegister = () => {
                                 name="avatar"
                                 onChange={handleInputChange}
                                 icon="file"
+                            />
+                            <Input
+                                type="email"
+                                name="admin-email"
+                                value={formData.AdminEmail}
+                                placeholder="Enter your Admin email"
+                                onChange={handleInputChange}
+                                error={errors.AdminEmail}
+                                icon="mail"
                             />
                             {apiError && (<div className='text-sm text-red-400'>{apiError}</div>)}
                             <button className="border border-yellow-500 p-2 font-bold text-xl rounded-lg bg-yellow-400 text-white">Register</button>

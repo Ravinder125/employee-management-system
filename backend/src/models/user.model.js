@@ -40,6 +40,11 @@ const userSchema = new Schema({
         type: String,
         trim: true,
         required: true
+    },
+    admin: {
+        type: Schema.Types.ObjectId,
+        ref: 'Admin',
+        required: true
     }
 
 }, { timestamps: true });

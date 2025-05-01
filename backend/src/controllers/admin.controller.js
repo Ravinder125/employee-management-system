@@ -64,9 +64,34 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
 const getProfile = asyncHandler(async (req, res) => {
     const adminId = req.admin._id;
-    const user = await Admin.findById(adminId);
+    const admin = await Admin.aggregate([
+        {
+            $match: { _id: adminId }
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: '_id',
+                foreignField: 'admin',
+                as: 'employees',
+                pipeline: [
+                    {
+                        $project: {
+                            _id: 1,
+                            username: 1,
+                            email: 1,
+                            avatar: 1
+                        }
+                    }
+                ]
+            }
+        }
+    ])
 
-    return res.status(200).json(ApiResponse.success(200, user, 'Admin profile successfully fetched'))
+    if (!admin) {
+        return res.status(400).json(ApiResponse.error(400, 'Admin not found'))
+    }
+    return res.status(200).json(ApiResponse.success(200, admin, 'Admin profile successfully fetched'))
 })
 
 const logoutAdmin = asyncHandler(async (req, res) => {
