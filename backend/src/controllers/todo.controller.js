@@ -42,7 +42,7 @@ const updateTodo = asyncHandler(async (req, res) => {
 
     const todoMongooseId = new mongoose.Types.ObjectId(todoId)
 
-    const isTodoExists = await Todo.findOne({ _id: todoMongooseId, isDeleted: false })
+    const isTodoExists = await Todo.findOne({ _id: todoMongooseId, isDeleted: false, })
     if (!isTodoExists) return res.status(400).json(ApiResponse.error(400, "Todo doesn't exist"))
 
     const updatedTodo = await Todo.findByIdAndUpdate(
@@ -61,6 +61,21 @@ const updateTodo = asyncHandler(async (req, res) => {
     if (!updatedTodo) return res.status(400).json(400, 'Error while updating todo')
 
     return res.status(200).json(ApiResponse.success(200, updatedTodo, 'Todo successfully updated'))
+})
+
+const updateTodoStatus = asyncHandler(async (req, res) => {
+    const { todoId } = req.params;
+    const { status } = req.body;
+    console.log(todoId)
+    const todoMongooseId = mongoose.Types.ObjectId.createFromHexString(todoId);
+    console.log(todoMongooseId)
+    const todo = await Todo.findByIdAndUpdate(
+        { _id: todoMongooseId, isDeleted: false, status: 'pending' },
+        { status },
+        { new: true }
+    )
+    if (!todo) return res.status(404).json(ApiResponse.error(404, 'No todo found'));
+    return res.status(200).json(ApiResponse.success(200, todo, 'Todo status updated successfully'));
 })
 
 const toggleDeleteTodo = asyncHandler(async (req, res) => {
@@ -93,7 +108,7 @@ const getAllTodos = asyncHandler(async (req, res) => {
 
     const AdminTodoAggregate = [
         {
-            $match: { createdBy: adminId, isDeleted: false }
+            $match: { createdBy: adminId, isDeleted: false, }
         },
         {
             $lookup: {
@@ -121,6 +136,7 @@ const getAllTodos = asyncHandler(async (req, res) => {
 export {
     createTodo,
     updateTodo,
+    updateTodoStatus,
     toggleDeleteTodo,
     getAllTodos
 }

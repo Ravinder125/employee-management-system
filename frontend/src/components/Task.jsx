@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SocialIcon from './SocialIcon';
+import { updateTaskStatus } from '../services/task.service';
 
-const Task = ({ title, task, priority, dueDate }) => {
+const Task = ({ id, title, task, priority, dueDate }) => {
+    const [status, setStatus] = useState('')
     const pickCardBgColor = (variant, priority) => {
         // Function to pick background color based on priority
         // and whether it's a card or not
@@ -19,23 +21,43 @@ const Task = ({ title, task, priority, dueDate }) => {
         }
         return bgColor[variant][priority.toLowerCase()];
     }
+
+    const handleClick = async (boolean) => {
+        try {
+            const data = {
+                status: boolean ? 'completed' : 'failed'
+            }
+            const response = await updateTaskStatus(id, data);
+            if (response.status === 200) {
+                console.log('Task updated successfully:', response.data.data);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+
+        }
+    }
     return (
-        <div className={`w-80 relative overflow-auto hidden-scrollbar h-100 ${pickCardBgColor('card', priority)} rounded-md p-3`}>
-            <div>
+        <div className={`w-80 relative h-65 lg:h-100 ${pickCardBgColor('card', priority)} rounded-md p-3`}>
+            <div className='h-full'>
                 <div className='flex justify-between'>
-                    <h4 className={`w-fit p-1 rounded-md text-xs mb-3 ${pickCardBgColor('priority', priority)}`}>{priority}</h4>
-                    <div className='text-xs'>{dueDate}</div>
+                    <div className='h-[10%] w-full flex items-center justify-between'>
+                        <h4 className={`p-1 rounded-md text-xs
+                             ${pickCardBgColor('priority', priority)}`}>{priority}</h4>
+                        <div className='text-xs'>{dueDate.split('T')[0]}</div>
+                    </div>
                 </div>
-                <h2 className='text-xl font-bold'>{title}</h2>
-                <p className='text-sm mt-1'>{task}</p>
+                <div className='h-[70%] lg:h-[80%] overflow-auto '>
+                    <h2 className='text-xl font-bold'>{title}</h2>
+                    <p className='text-sm mt-1 overflow-auto h-[80%] lg:h-full'>{task}</p>
+                </div>
             </div>
             <div className='flex absolute left-0 bottom-0 p-2 w-full justify-between items-center mt-3'>
-                <button className={`flex font-medium text-lg gap-2 items-center justify-center bg-red-500 rounded-md px-3 py-1  `}>
+                <button onClick={() => handleClick(false)} className={`flex font-medium text-lg gap-2 items-center justify-center bg-red-500 rounded-md px-3 py-1  `}>
                     <span>Failed</span>
                     <SocialIcon icon='ri-close-line' />
                 </button>
-                <button className={`flex font-medium text-lg gap-2 items-center justify-center bg-green-500 rounded-md px-3 py-1  `}>
-                    <span>Confrim</span>
+                <button onClick={() => handleClick(true)} className={`flex font-medium text-lg gap-2 items-center justify-center bg-green-500 rounded-md px-3 py-1  `}>
+                    <span>Confirm</span>
                     <SocialIcon icon='ri-check-line' />
                 </button>
             </div>

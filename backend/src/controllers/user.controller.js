@@ -82,6 +82,11 @@ const getProfile = asyncHandler(async (req, res) => {
                 localField: '_id',
                 foreignField: 'assignedTo',
                 as: 'todos',
+                pipeline: [
+                    {
+                        $match: { isDeleted: false, status: 'pending' }
+                    }
+                ]
             }
         }
     ])

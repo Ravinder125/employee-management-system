@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
-import { createTodo, updateTodo, toggleDeleteTodo, getAllTodos } from '../controllers/todo.controller.js'
-import { authAdmin } from '../middlewares/auth.middleware.js';
+import { createTodo, updateTodo, updateTodoStatus, toggleDeleteTodo, getAllTodos } from '../controllers/todo.controller.js'
+import { authUser, authAdmin } from '../middlewares/auth.middleware.js';
 
 
 
@@ -12,14 +12,15 @@ router.route('/').get(authAdmin, getAllTodos)
 router
     .route('/create')
     .post(authAdmin,
-    [
-        body('title').notEmpty().withMessage('Title is required'),
-        body('description').notEmpty().withMessage('Description is required')
-    ],
+        [
+            body('title').notEmpty().withMessage('Title is required'),
+            body('description').notEmpty().withMessage('Description is required')
+        ],
         createTodo)
 
 router.route('/:todoId')
-    .patch(authAdmin, updateTodo)
+    .put(authAdmin, updateTodo)
+    .patch(authUser, updateTodoStatus)
     .delete(authAdmin, toggleDeleteTodo)
 
 

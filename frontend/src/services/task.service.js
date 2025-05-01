@@ -12,14 +12,16 @@ const createTask = async (data) => {
     return response
 }
 
-// const  = async () => {
-//     const response = await axios.get(`${Url}/todos`, {
-//         withCredentials: true,
-//     })
-// }
+const updateTaskStatus = async (taskId, status) => {
+    const response = await axios.patch(`${Url}/${taskId}`, status, {
+        withCredentials: true,
+    })
+    return response
+}
 
 
 
 export {
     createTask,
+    updateTaskStatus,
 }

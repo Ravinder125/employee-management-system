@@ -11,7 +11,7 @@ const CreateTask = (props) => {
         title: '',
         description: '',
         assignedTo: '',
-        priority: 'medium',
+        priority: '',
         date: '',
         category: ''
     })
@@ -35,7 +35,6 @@ const CreateTask = (props) => {
             case 'date':
                 const currentDate = new Date();
                 const selectDate = new Date(value);
-                console.log(selectDate, currentDate)
                 if (selectDate < currentDate) {
                     return 'Date cannot be in the past';
                 }
@@ -168,9 +167,9 @@ const CreateTask = (props) => {
                     >
                         {['medium', 'high', 'low'].map((priority, id) => (
                             <option
-                                className='text-white bg-black'
                                 key={id}
-                                value={formData.priority}>
+                                className='text-white bg-black'
+                                value={priority}>
                                 {priority.charAt(0).toUpperCase() + priority.slice(1)}
                             </option>
                         ))}
