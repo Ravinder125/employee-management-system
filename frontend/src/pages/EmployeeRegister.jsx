@@ -27,6 +27,7 @@ const EmployeeRegister = () => {
             email: '',
             password: '',
             confirmPassword: '',
+            AdminEmail: '',
             avatar: null
         });
         setErrors({});
@@ -34,7 +35,12 @@ const EmployeeRegister = () => {
 
     const validate = (name, value) => {
         switch (name) {
-            case 'email' || 'admin-email':
+            case 'email':
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                    return 'Invalid email format';
+                }
+                break;
+            case 'AdminEmail':
                 if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
                     return 'Invalid email format';
                 }
@@ -44,7 +50,7 @@ const EmployeeRegister = () => {
                     return 'Password must be at least 8 characters long';
                 }
                 break;
-            case 'confirm-password':
+            case 'confirmPassword':
                 if (value !== formData.password) {
                     return 'Password and comfirm pasword must be same'
                 }
@@ -56,26 +62,17 @@ const EmployeeRegister = () => {
     const handleInputChange = (e) => {
         const { name, value, files } = e.target;
 
-        switch (name) {
-            case 'avatar':
-                setFormData(prev => ({ ...prev, [name]: files[0] }));
-                break;
-            case 'confirm-password':
-                setFormData(prev => ({ ...prev, 'confirmPassword': value }))
-                setErrors(prev => ({ ...prev, 'confirmPassword': validate(name, value) }));
-            case 'admin-email':
-                setFormData(prev => ({ ...prev, 'AdminEmail': value }))
-                setErrors(prev => ({ ...prev, 'AdminEmail': validate(name, value) }));
-            default:
-                setFormData(prev => ({ ...prev, [name]: value }));
-                setErrors(prev => ({ ...prev, [name]: validate(name, value) }));
-                if (!value) {
-                    setErrors(prev => ({ ...prev, [name]: '' }));
-                    setErrors(prev => ({ ...prev, 'confirmPassword': '' }));
-                }
-                break;
-
+        if (name !== 'avatar') {
+            setFormData(prev => ({ ...prev, [name]: value }));
+            setErrors(prev => ({ ...prev, [name]: validate(name, value) }));
+            if (!value) {
+                setErrors(prev => ({ ...prev, [name]: '' }));
+            }
+        } else {
+            setFormData(prev => ({ ...prev, [name]: files[0] }));
         }
+
+
     };
 
     const handleSubmit = async (e) => {
@@ -164,7 +161,7 @@ const EmployeeRegister = () => {
                             />
                             <Input
                                 type="password"
-                                name="confirm-password"
+                                name="confirmPassword"
                                 value={formData.confirmPassword}
                                 placeholder="Enter your password again"
                                 onChange={handleInputChange}
@@ -179,7 +176,7 @@ const EmployeeRegister = () => {
                             />
                             <Input
                                 type="email"
-                                name="admin-email"
+                                name="AdminEmail"
                                 value={formData.AdminEmail}
                                 placeholder="Enter your Admin email"
                                 onChange={handleInputChange}

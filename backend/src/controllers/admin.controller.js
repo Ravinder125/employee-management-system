@@ -4,6 +4,7 @@ import { validationResult } from 'express-validator';
 import { generateTokenForAdmin } from '../utils/generateToken.js';
 import { uploadOnCloudinary } from '../utils/cloudinary.js';
 import { Admin } from '../models/admin.model.js';
+import { title } from 'process';
 
 const registerAdmin = asyncHandler(async (req, res) => {
     const errors = validationResult(req);
@@ -82,6 +83,27 @@ const getProfile = asyncHandler(async (req, res) => {
                             email: 1,
                             avatar: 1
                         }
+                    },
+                    {
+                        $lookup: {
+                            from: 'todos',
+                            localField: '_id',
+                            foreignField: 'assignedTo',
+                            as: 'todos',
+                            pipeline: [
+                                {
+                                    $project: {
+                                        _id: 1,
+                                        title: 1,
+                                        description: 1,
+                                        status: 1,
+                                        priority: 1,
+                                        dueTo: 1,
+                                        createdAt: 1,
+                                    }
+                                }
+                            ]
+                        }
                     }
                 ]
             }
@@ -92,6 +114,20 @@ const getProfile = asyncHandler(async (req, res) => {
                 localField: '_id',
                 foreignField: 'createdBy',
                 as: 'todos',
+                pipeline: [
+                    {
+                        $project: {
+                            _id: 1,
+                            title: 1,
+                            description: 1,
+                            status: 1,
+                            priority: 1,
+                            date: 1,
+                            createdAt: 1,
+                            assignedTo: 1,
+                        }
+                    }
+                ]
             }
         }
     ])

@@ -3,7 +3,7 @@ import SocialIcon from './SocialIcon';
 import { updateTaskStatus } from '../services/task.service';
 
 const Task = ({ id, title, task, priority, dueDate }) => {
-    const [status, setStatus] = useState('')
+    const [success, setSuccess] = useState(false);
     const pickCardBgColor = (variant, priority) => {
         // Function to pick background color based on priority
         // and whether it's a card or not
@@ -30,39 +30,44 @@ const Task = ({ id, title, task, priority, dueDate }) => {
             const response = await updateTaskStatus(id, data);
             if (response.status === 200) {
                 console.log('Task updated successfully:', response.data.data);
+                setSuccess(true);
             }
         } catch (error) {
             console.error('Error:', error);
-
         }
     }
-    return (
-        <div className={`w-80 relative h-65 lg:h-100 ${pickCardBgColor('card', priority)} rounded-md p-3`}>
-            <div className='h-full'>
-                <div className='flex justify-between'>
-                    <div className='h-[10%] w-full flex items-center justify-between'>
-                        <h4 className={`p-1 rounded-md text-xs
+
+    if (success) {
+        return;
+    } else {
+        return (
+            <div className={`w-80 relative h-65 lg:h-100 ${pickCardBgColor('card', priority)} rounded-md p-3`}>
+                <div className='h-full'>
+                    <div className='flex justify-between'>
+                        <div className='h-[10%] w-full flex items-center justify-between'>
+                            <h4 className={`p-1 rounded-md text-xs
                              ${pickCardBgColor('priority', priority)}`}>{priority}</h4>
-                        <div className='text-xs'>{dueDate.split('T')[0]}</div>
+                            <div className='text-xs'>{dueDate.split('T')[0]}</div>
+                        </div>
+                    </div>
+                    <div className='h-[70%] lg:h-[80%] hide-scrollbar overflow-auto '>
+                        <h2 className='text-xl font-bold'>{title}</h2>
+                        <p className='text-sm mt-1  h-[80%] lg:h-full'>{task}</p>
                     </div>
                 </div>
-                <div className='h-[70%] lg:h-[80%] overflow-auto '>
-                    <h2 className='text-xl font-bold'>{title}</h2>
-                    <p className='text-sm mt-1 overflow-auto h-[80%] lg:h-full'>{task}</p>
+                <div className='flex absolute left-0 bottom-0 p-2 w-full justify-between items-center mt-3'>
+                    <button onClick={() => handleClick(false)} className={`flex font-medium text-lg gap-2 items-center justify-center bg-red-500 rounded-md px-3 py-1  `}>
+                        <span>Failed</span>
+                        <SocialIcon icon='ri-close-line' />
+                    </button>
+                    <button onClick={() => handleClick(true)} className={`flex font-medium text-lg gap-2 items-center justify-center bg-green-500 rounded-md px-3 py-1  `}>
+                        <span>Confirm</span>
+                        <SocialIcon icon='ri-check-line' />
+                    </button>
                 </div>
-            </div>
-            <div className='flex absolute left-0 bottom-0 p-2 w-full justify-between items-center mt-3'>
-                <button onClick={() => handleClick(false)} className={`flex font-medium text-lg gap-2 items-center justify-center bg-red-500 rounded-md px-3 py-1  `}>
-                    <span>Failed</span>
-                    <SocialIcon icon='ri-close-line' />
-                </button>
-                <button onClick={() => handleClick(true)} className={`flex font-medium text-lg gap-2 items-center justify-center bg-green-500 rounded-md px-3 py-1  `}>
-                    <span>Confirm</span>
-                    <SocialIcon icon='ri-check-line' />
-                </button>
-            </div>
-        </div >
-    )
+            </div >
+        )
+    }
 }
 
 export default Task

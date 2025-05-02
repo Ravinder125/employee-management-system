@@ -16,7 +16,7 @@ const TaskList = (props) => {
             >
                 <SocialIcon icon={`ri-arrow-${tasksPanelVisible ? 'down' : 'up'}-wide-fill`} textColor='white' />
             </div>
-            <div className={`flex justify-center gap-5 md:justify-start flex-wrap md:h-full h-[94%]  w-full overflow-y-auto`}>
+            <div className={`flex justify-center lg:gap-5 gap-2 md:justify-start flex-wrap md:h-full h-[94%]  w-full overflow-y-auto`}>
                 {props.tasks?.map((task, idx) => (
                     <Task key={idx} id={task._id} title={task.title} task={task.description} priority={task.priority} dueDate={task.dueTo} />
                 ))}

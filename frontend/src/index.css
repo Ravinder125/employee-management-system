@@ -12,3 +12,7 @@
     display: none;
     /* Chrome, Safari, Opera */
 }
+
+button {
+    cursor: pointer;
+}
